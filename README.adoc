@@ -1,0 +1,47 @@
+= agenda
+:toc: macro
+:toc-title: Conteúdo
+:toclevels: 4
+
+[.lead]
+Um projeto de agenda desenvolvido para a disciplina Tópicos
+Especiais de Programação.
+
+toc::[]
+
+== Instalação e execução
+=== Dependências
+A lista de dependências pode ser encontrada abaixo, mas ela é
+proveniente do arquivo link:requirements.txt[]
+// TODO: usar um workflow com asciidoctor-reducer para fazer
+//       o include abaixo mostrar o conteúdo do arquivo
+include::requirements.txt[]
+
+=== Instalando dependências
+O modo mais simples de instalação das dependências é usando o `pip`.
+Além disso é fortemente recomendado usar um ambiente virtual. +
+Veja: <<usando-venv>>
+
+Para instalar as dependências execute:
+
+    pip install -r requirements.txt
+
+WARNING: A instalação acima fara com que as dependências do projeto sejam instaladas
+globalmente o que pode não ser o melhor resultado.
+
+[#usando-venv]
+==== Usando um ambiente virtual
+O modo recomendado para instalação das dependências é usando um
+https://docs.python.org/pt-br/3/library/venv.html[ambiente virtual].
+O processo pode ser resumido nos seguintes passos:
+
+    python -m venv <caminho>/<nome-do-ambiente-virtual>
+
+Após a crianção do ambiente virtual é necessário ativá-lo.
+// TODO: incluir como ativar o ambiente virtual em cada sistema operacional
+
+== Autores e licensa
+.Autores
+- Jonatha Gabriel <jonathagabrielns@gmail.com>
+
+== Conclusão e agradecimentos
