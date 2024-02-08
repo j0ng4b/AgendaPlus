@@ -1,7 +1,7 @@
-= agenda
+= Agenda+
 :toc: macro
 :toc-title: Conteúdo
-:toclevels: 4
+:toclevels: 3
 
 [.lead]
 Um projeto de agenda desenvolvido para a disciplina Tópicos Especiais de
@@ -21,7 +21,7 @@ arquivo link:requirements.txt[]
 ----
 # Front-end
 flet
-requests2.31.0
+requests
 python-dotenv
 
 # Back-end
@@ -38,20 +38,18 @@ Veja: <<usando-venv>>
 
 Para instalar todas as dependências execute:
 
-    pip install -r requirements.txt
+    python -m pip install -r requirements.txt
 
 É possível também instalar as dependências apenas do front-end ou apenas do
-back-end executando:
+back-end. Para instalar as dependências do front-end somente, execute:
 
-    # Front-end
-    pip install -r src/frontend/requirements.txt
+    python -m pip install -r src/frontend/requirements.txt
 
-Ou
+Para instalar as do back-end é com:
 
-    # Back-end
-    pip install -r src/backend/requirements.txt
+    python -m pip install -r src/backend/requirements.txt
 
-WARNING: A instalação acima fara com que as dependências do projeto sejam
+WARNING: A instalação acima fará com que as dependências do projeto sejam
 instaladas globalmente o que pode não ser o melhor resultado.
 
 [#usando-venv]
@@ -64,7 +62,7 @@ O processo pode ser resumido nos seguintes passos:
     $ python -m venv caminho/para/ambiente_virtual
 
 ===== Windows
-    c:\> py -m venv c:caminho\para\ambiente_virtual
+    c:\> python -m venv caminho\para\ambiente_virtual
 
 Após a crianção do ambiente virtual é necessário ativá-lo.
 
@@ -74,14 +72,15 @@ Após a crianção do ambiente virtual é necessário ativá-lo.
 ===== Windows
     c:\> caminho\para\ambiente_virtual\Scripts\activate.bat
 
-Com isso o ambiente virtual está pronto para ser utilizado caso quira
+Com isso o ambiente virtual está pronto para ser utilizado caso queira
 sair/desativar o ambiente virtual só basta executar o comando `deactivate`.
 
 == Autores e licensa
 .Autores
 - Jonatha Gabriel <jonathagabrielns@gmail.com>
 
-O projeto pode ser encontrado em: https://github.com/j0ng4b/agenda
+O projeto pode ser encontrado em https://github.com/j0ng4b/AgendaPlus e foi
+licenciado sob os termos da `BSD-3-Clause` para mais detalhes visite o
+arquivo link:LICENSE[].
 
 == Conclusão e agradecimentos
-
