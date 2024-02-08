@@ -1,0 +1,6 @@
+# Include Front-end requirements
+-r src/frontend/requirements.txt
+
+# Include Back-end requirements
+-r src/backend/requirements.txt
+

@@ -26,9 +26,18 @@ O modo mais simples de instalação das dependências é usando o `pip`.
 Além disso é fortemente recomendado usar um ambiente virtual. +
 Veja: <<usando-venv>>
 
-Para instalar as dependências execute:
+Para instalar todas as dependências execute:
 
     pip install -r requirements.txt
+
+É possível também instalar as dependências apenas do front-end ou apenas do
+back-end executando:
+
+    # Front-end
+    pip install -r src/frontend/requirements.txt
+
+    # Back-end
+    pip install -r src/backend/requirements.txt
 
 WARNING: A instalação acima fara com que as dependências do projeto sejam instaladas
 globalmente o que pode não ser o melhor resultado.
