@@ -4,26 +4,36 @@
 :toclevels: 4
 
 [.lead]
-Um projeto de agenda desenvolvido para a disciplina Tópicos
-Especiais de Programação.
+Um projeto de agenda desenvolvido para a disciplina Tópicos Especiais de
+Programação.
 
 toc::[]
 
 == Instalação e execução
 === Dependências
-A lista de dependências pode ser encontrada abaixo, mas ela é
-proveniente do arquivo link:requirements.txt[]
+É fortemente recomendado utilizar a versão mais recente do python, em versões
+anteriores o sistema pode funcionar mas não é testado por isso não nós
+responsabilizamos, caso haja falhas se executando em versões anteriores do
+python.
+
+A lista de dependências pode ser encontrada abaixo, mas ela é proveniente do
+arquivo link:requirements.txt[]
 ----
 # Front-end
 flet
+requests2.31.0
+python-dotenv
 
 # Back-end
 flask
+kink
+pytest
+python-dotenv
 ----
 
 === Instalando dependências
-O modo mais simples de instalação das dependências é usando o `pip`.
-Além disso é fortemente recomendado usar um ambiente virtual. +
+O modo mais simples de instalação das dependências é usando o `pip`. Além disso
+é fortemente recomendado usar um ambiente virtual. +
 Veja: <<usando-venv>>
 
 Para instalar todas as dependências execute:
@@ -36,11 +46,13 @@ back-end executando:
     # Front-end
     pip install -r src/frontend/requirements.txt
 
+Ou
+
     # Back-end
     pip install -r src/backend/requirements.txt
 
-WARNING: A instalação acima fara com que as dependências do projeto sejam instaladas
-globalmente o que pode não ser o melhor resultado.
+WARNING: A instalação acima fara com que as dependências do projeto sejam
+instaladas globalmente o que pode não ser o melhor resultado.
 
 [#usando-venv]
 ==== Usando um ambiente virtual
@@ -48,10 +60,22 @@ O modo recomendado para instalação das dependências é usando um
 https://docs.python.org/pt-br/3/library/venv.html[ambiente virtual].
 O processo pode ser resumido nos seguintes passos:
 
-    python -m venv <caminho>/<nome-do-ambiente-virtual>
+===== Unix/macOS
+    $ python -m venv caminho/para/ambiente_virtual
+
+===== Windows
+    c:\> py -m venv c:caminho\para\ambiente_virtual
 
 Após a crianção do ambiente virtual é necessário ativá-lo.
-// TODO: incluir como ativar o ambiente virtual em cada sistema operacional
+
+===== Unix/macOS
+    $ . caminho/para/ambiente_virtual/bin/activate
+
+===== Windows
+    c:\> caminho\para\ambiente_virtual\Scripts\activate.bat
+
+Com isso o ambiente virtual está pronto para ser utilizado caso quira
+sair/desativar o ambiente virtual só basta executar o comando `deactivate`.
 
 == Autores e licensa
 .Autores
