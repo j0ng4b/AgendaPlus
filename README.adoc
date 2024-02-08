@@ -13,9 +13,13 @@ toc::[]
 === Dependências
 A lista de dependências pode ser encontrada abaixo, mas ela é
 proveniente do arquivo link:requirements.txt[]
-// TODO: usar um workflow com asciidoctor-reducer para fazer
-//       o include abaixo mostrar o conteúdo do arquivo
-include::requirements.txt[]
+----
+# Front-end
+flet
+
+# Back-end
+flask
+----
 
 === Instalando dependências
 O modo mais simples de instalação das dependências é usando o `pip`.
@@ -44,4 +48,7 @@ Após a crianção do ambiente virtual é necessário ativá-lo.
 .Autores
 - Jonatha Gabriel <jonathagabrielns@gmail.com>
 
+O projeto pode ser encontrado em: https://github.com/j0ng4b/agenda
+
 == Conclusão e agradecimentos
+
