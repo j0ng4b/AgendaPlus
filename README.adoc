@@ -43,11 +43,11 @@ Para instalar todas as dependências execute:
 É possível também instalar as dependências apenas do front-end ou apenas do
 back-end. Para instalar as dependências do front-end somente, execute:
 
-    python -m pip install -r src/frontend/requirements.txt
+    python -m pip install -r frontend/requirements.txt
 
 Para instalar as do back-end é com:
 
-    python -m pip install -r src/backend/requirements.txt
+    python -m pip install -r backend/requirements.txt
 
 WARNING: A instalação acima fará com que as dependências do projeto sejam
 instaladas globalmente o que pode não ser o melhor resultado.
@@ -59,20 +59,21 @@ https://docs.python.org/pt-br/3/library/venv.html[ambiente virtual].
 O processo pode ser resumido nos seguintes passos:
 
 ===== Unix/macOS
-    $ python -m venv caminho/para/ambiente_virtual
+    $ python -m venv .venv
 
 ===== Windows
-    c:\> python -m venv caminho\para\ambiente_virtual
+    > python -m venv .venv
 
 Após a crianção do ambiente virtual é necessário ativá-lo.
 
 ===== Unix/macOS
-    $ . caminho/para/ambiente_virtual/bin/activate
+    $ . .venv/bin/activate
 
 ===== Windows
-    c:\> caminho\para\ambiente_virtual\Scripts\activate.bat
+    > .venv\Scripts\activate
 
-Com isso o ambiente virtual está pronto para ser utilizado caso queira
+Com isso o ambiente virtual está pronto para ser utilizado caso queira para
+confirmar isso no prompt mostrará o nome do ambiente virtual ativo nele
 sair/desativar o ambiente virtual só basta executar o comando `deactivate`.
 
 == Autores e licensa
