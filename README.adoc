@@ -76,6 +76,21 @@ Com isso o ambiente virtual está pronto para ser utilizado caso queira para
 confirmar isso no prompt mostrará o nome do ambiente virtual ativo nele
 sair/desativar o ambiente virtual só basta executar o comando `deactivate`.
 
+=== Executando o sistema
+Para executar o sistema é necessário iniciar individualmente o back-end e depois
+o front-end do sistema.
+
+Para iniciar a execução do back-end:
+
+    python -m backend
+
+E para o front-end execute:
+
+    python -m frontend
+
+É importe que se inicie primeiro o back-end e depois o front-end porque o
+front-end depende de dados que são servidos pelo back-end.
+
 == Autores e licensa
 .Autores
 - Jonatha Gabriel <jonathagabrielns@gmail.com>

@@ -1,4 +1,4 @@
-import views
+import frontend.views as views
 
 # Define view routes
 routes = {

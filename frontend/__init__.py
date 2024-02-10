@@ -2,7 +2,7 @@ import re
 import repath
 import flet as ft
 
-from routes import routes
+from frontend.routes import routes
 
 def main(page: ft.Page) -> None:
     def route_chaged(event: ft.RouteChangeEvent) -> None:

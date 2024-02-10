@@ -31,8 +31,9 @@ def create_app(test_config=None):
         blueprint_name = blueprint_file.strip('.py')
 
         # Dynamic import the route blueprint
-        blueprint_module_name = f'blueprints.{blueprint_name}'
-        blueprint_module = importlib.import_module(blueprint_module_name)
+        blueprint_module_name = f'.blueprints.{blueprint_name}'
+        blueprint_module = importlib.import_module(blueprint_module_name,
+                                                   __package__)
 
         blueprint_name += '_bp'
         if blueprint_name in blueprint_module.__dict__:
