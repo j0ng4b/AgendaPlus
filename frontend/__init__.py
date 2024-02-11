@@ -4,6 +4,7 @@ import flet as ft
 
 from frontend.routes import routes
 
+
 def main(page: ft.Page) -> None:
     def route_chaged(event: ft.RouteChangeEvent) -> None:
         # Clear all views
@@ -36,6 +37,6 @@ def main(page: ft.Page) -> None:
     # Go to home page
     page.go('/')
 
+
 if __name__ == '__main__':
     ft.app(target=main)
-

@@ -5,4 +5,3 @@ routes = {
     '/': views.home,
     '/hello/:name': views.hello,
 }
-

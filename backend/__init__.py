@@ -1,11 +1,13 @@
 import importlib
 import os
 import os.path
+from typing import Optional, Dict
 
 from dotenv import load_dotenv
 from flask import Flask
 
-def create_app(test_config=None):
+
+def create_app(test_config: Optional[Dict[str, int]] = None) -> Flask:
     app = Flask(__name__.split('.')[0], instance_relative_config=True)
 
     # Load configurations
@@ -40,7 +42,8 @@ def create_app(test_config=None):
             # Try to register the blueprint <blueprint_name>_bp
             app.register_blueprint(blueprint_module.__dict__[blueprint_name])
         else:
-            print(f'Blueprint {blueprint_name} for {blueprint_module_name} not found!')
+            print(f'Blueprint {blueprint_name} for {blueprint_module_name}'
+                  f'not found!')
 
     return app
 
@@ -60,4 +63,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-
