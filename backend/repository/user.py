@@ -4,6 +4,11 @@ from typing import Optional
 from . import IRepository, IRepositoryInMemory
 from ..models import User
 
+__all__ = [
+    'IUserRepository',
+    'UserRepositoryInMemory'
+]
+
 
 class IUserRepository(IRepository[User], ABC):
     @abstractmethod
