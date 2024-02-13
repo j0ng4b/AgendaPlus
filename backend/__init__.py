@@ -77,7 +77,7 @@ def main() -> None:
     SERVER_PORT = os.getenv('SERVER_PORT', default=DEFAULT_SERVER_PORT)
 
     app = create_app()
-    app.run(port=SERVER_PORT, debug=True)
+    app.run(port=int(SERVER_PORT), debug=True)
 
 
 if __name__ == '__main__':
