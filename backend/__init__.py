@@ -22,7 +22,23 @@ def create_app(test_config: Optional[Dict[str, int]] = None) -> Flask:
     except OSError:
         pass
 
-    # Bootstrap blueprints
+    # Bootstrap
+    bootstrap_di(app)
+    bootstrap_blueprints(app)
+
+    return app
+
+
+def bootstrap_di(app: Flask) -> None:
+    from kink import di
+
+    # Unit of work
+    from .unit_of_work import IUnitOfWork, UnitOfWorkInMemory
+
+    di[IUnitOfWork] = UnitOfWorkInMemory()
+
+
+def bootstrap_blueprints(app: Flask) -> None:
     blueprints_root = os.path.join(app.root_path, 'blueprints')
     for blueprint_file in os.listdir(blueprints_root):
         if blueprint_file.startswith('__') \
@@ -44,8 +60,6 @@ def create_app(test_config: Optional[Dict[str, int]] = None) -> Flask:
         else:
             print(f'Blueprint {blueprint_name} for {blueprint_module_name}'
                   f'not found!')
-
-    return app
 
 
 def main() -> None:
