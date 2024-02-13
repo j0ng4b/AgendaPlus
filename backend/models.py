@@ -1,10 +1,10 @@
-from dataclasses import dataclass
-from typing import Protocol
+from abc import ABC
+from dataclasses import dataclass, field
 
 
 @dataclass
-class BaseModel(Protocol):
-    id: int
+class BaseModel(ABC):
+    id: int = field(init=False)
 
 
 @dataclass
