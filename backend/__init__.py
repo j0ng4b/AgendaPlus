@@ -37,6 +37,11 @@ def bootstrap_di(app: Flask) -> None:
 
     di[IUnitOfWork] = UnitOfWorkInMemory()
 
+    # Services
+    from .services.user import IUserService, UserService
+
+    di[IUserService] = di[UserService]
+
 
 def bootstrap_blueprints(app: Flask) -> None:
     blueprints_root = os.path.join(app.root_path, 'blueprints')
