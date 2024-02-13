@@ -1,9 +1,11 @@
 import flet as ft
-from flet import Text, Container, Column, Row, Stack, margin, alignment, TextField, ElevatedButton, Image, border
+from flet import Text, Container, Column, Row, Stack, margin, alignment, TextField, ElevatedButton, Image, border, MainAxisAlignment, padding
 
 
 from .components.inputField import InputField 
+from .components.itemList import ItemList 
 from .layouts.form_layout import FormLayout
+from .layouts.auth_layout import auth_layout
 
 bgColor = "#0CA6E9"
 
@@ -19,7 +21,7 @@ def home(page: ft.Page, **kwargs) -> ft.View:
     body = FormLayout([
         InputField('E-mail'),
         InputField('Senha'),
-        ElevatedButton(text="Entrar",width=250,height=50.7,bgcolor="#00FFA3")
+        ElevatedButton(text="Entrar",width=250,height=50.7,bgcolor="#00FFA3", on_click=lambda _: page.go("/userHome"))
     ], 'Primeira vez?', 'Registre-se', page, 'cadastro')
 
     view.controls.append(body)
@@ -31,10 +33,7 @@ def home(page: ft.Page, **kwargs) -> ft.View:
 
 def hello(page: ft.Page) -> ft.View:
     # Create the view
-    page.padding = 0
-    page.window_resizable = false,
-    page.vertical_alignment = 'center'
-    page.horizontal_alignment = 'center'
+    
     
     view = ft.View()
 
@@ -47,14 +46,8 @@ def hello(page: ft.Page) -> ft.View:
 ##ft.app(name=agenda, target=home)
 
 def cadastro(page: ft.Page) -> ft.View:
-    
-    """ page.padding = 0
-    page.window_resizable = false,
-    page.vertical_alignment = 'center'
-    page.horizontal_alignment = 'center' """
-    
     view = ft.View()
-    view.bgcolor=bgColor
+    view.bgcolor= bgColor
     body = FormLayout([
         InputField('Nome'),
         InputField('E-mail'),
@@ -63,3 +56,17 @@ def cadastro(page: ft.Page) -> ft.View:
     ], 'Já tem conta?', 'Clique aqui', page, '')
     view.controls.append(body)
     return view
+
+ 
+def userHome(page: ft.Page) -> ft.View:
+    userDados = {
+        'id': 0,
+        'name': 'Rennê',
+        'email': 'renne@dugrau.com'
+    }
+    view = ft.View()
+    
+    auth_layout(view, userDados, bgColor)
+  
+    return view
+

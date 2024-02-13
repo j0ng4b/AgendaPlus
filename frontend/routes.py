@@ -4,6 +4,7 @@ import frontend.views as views
 routes = {
     '/': views.home,
     '/cadastro': views.cadastro,
+    '/userHome': views.userHome,
     '/hello/:name': views.hello,
 }
 
