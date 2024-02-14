@@ -6,7 +6,7 @@ def auth_layout(view, userDados, bgColor):
     view.bgcolor=bgColor
     view.padding = 0
     view.window_resizable = False,
-    view.vertical_alignment = 'center'
+    view.vertical_alignment = 'start'
     view.horizontal_alignment = 'center'
     view.drawer = ft.NavigationDrawer(
         controls=[
