@@ -1,5 +1,5 @@
 import flet as ft
-from flet import Text, Container, Column, Row, Stack, margin, alignment, TextField, ElevatedButton, Image, border
+from flet import Text, Container, Column, Row, Stack, margin, alignment, Image
 
 class FormLayout(ft.UserControl):
     def __init__(self, listInput, textDown, linkDown, page, route):
@@ -43,7 +43,7 @@ class FormLayout(ft.UserControl):
                                 Text(textDown, height=54.54,font_family="Rounded Mplus 1C Bould",size=16,color="#EDEDED"),
                                 Container(
                                     Text(linkDown,height=54.54,font_family="Rounded Mplus 1C Bould",size=16,color="#00FFA3"),
-                                    on_click=lambda _: page.go(f"/{route}")
+                                    on_click=lambda _: page.route_forward(f"/{route}")
                                 ),
                             
                             ], alignment = ft.MainAxisAlignment.CENTER),
