@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Generic, List, Optional, TypeVar
 
-from ..models import BaseModel
+from backend.models import BaseModel
 
 T = TypeVar('T', bound=BaseModel)
 

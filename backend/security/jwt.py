@@ -3,9 +3,9 @@ import hashlib
 import hmac
 import json
 import time
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Union, cast
 
-JSONType = Union[str, int, float, bool, Dict[str, Any], List[Any]]
+JSONType = Dict[str, Union[str, int, float, bool, Dict[str, Any], List[Any]]]
 
 
 class JWTInvalidToken(Exception):
@@ -37,7 +37,7 @@ def _base64_url_decode(string: str | bytes) -> str:
     return urlsafe_b64decode(string).decode()
 
 
-def sign(payload: Dict[str, object], secret_key: str, **kwargs) -> str:
+def sign(payload: Dict[str, object], secret_key: str, **kwargs: str) -> str:
     # Encode header
     header_base64: str = _base64_url_encode(json.dumps({
         'typ': 'JWT',
@@ -87,7 +87,7 @@ def verify(token: str, secret_key: str) -> None:
     # If expire time was defined check if the token has expired
     payload: JSONType = json.loads(_base64_url_decode(token_parts[1]))
     if 'exp' in payload:
-        if int(payload['exp']) - int(time.time()) < 0:
+        if cast(int, payload['exp']) - int(time.time()) < 0:
             raise JWTExpiredToken('the token is no more valid')
 
     header_payload: bytes = f'{token_parts[0]}.{token_parts[1]}'.encode()

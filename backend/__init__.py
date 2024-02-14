@@ -76,6 +76,9 @@ def main() -> None:
     # Setup variables from environment
     SERVER_PORT = os.getenv('SERVER_PORT', default=DEFAULT_SERVER_PORT)
 
+    if 'SECRET_KEY' not in os.environ:
+        os.environ['SECRET_KEY'] = 'doNotUseThis'
+
     app = create_app()
     app.run(port=int(SERVER_PORT), debug=True)
 

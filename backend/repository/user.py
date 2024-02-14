@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from . import IRepository, IRepositoryInMemory
-from ..models import User
+from backend.repository import IRepository, IRepositoryInMemory
+from backend.models import User
 
 __all__ = [
     'IUserRepository',
