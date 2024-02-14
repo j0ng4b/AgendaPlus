@@ -3,5 +3,8 @@ import frontend.views as views
 # Define view routes
 routes = {
     '/': views.home,
-    '/hello/:name': views.hello,
+    '/cadastro': views.cadastro,
+    '/compromissos': views.compromissos,
+    '/calendario': views.calendario,
+    '/contatos': views.contatos,
 }
