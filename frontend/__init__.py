@@ -6,9 +6,18 @@ from frontend.routes import routes
 
 
 def main(page: ft.Page) -> None:
-    def route_chaged(event: ft.RouteChangeEvent) -> None:
-        # Clear all views
-        page.views.clear()
+    def route_changed(event: ft.RouteChangeEvent) -> None:
+        action: str = event.route.split(':')[0]
+
+        if action == 'change':
+            if len(page.views) > 0:
+                page.views.pop()
+        elif action == 'forward':
+            pass  # do nothing
+        elif action == 'backward':
+            if len(page.views) > 0:
+                page.views.pop()
+            return
 
         # Process routes
         for route, view in routes.items():
@@ -25,17 +34,39 @@ def main(page: ft.Page) -> None:
         if not match:
             raise NotImplementedError(f'view for route {page.route} not found')
 
+    def route_change(route: str) -> None:
+        page.route = route
+        route_changed(ft.RouteChangeEvent('change:' + route))
         page.update()
 
-    def view_poped(event: ft.ViewPopEvent):
-        page.views.pop()
-        page.go(page.views[-1])
+    def route_forward(route: str) -> None:
+        page.route = route
+        route_changed(ft.RouteChangeEvent('forward:' + route))
+        page.update()
 
-    page.on_route_change = route_chaged
+    def route_backward() -> None:
+        page.route = page.views[-2].route
+        route_changed(ft.RouteChangeEvent('backward:' + page.route))
+        page.update()
+
+    def view_poped(event: ft.ViewPopEvent) -> None:
+        page.route_backward()
+
+    # Prevents to the route change event by trigged twice because route
+    # manipulation is done by the route functions only
+    page.on_route_change = None
+
+    page.route_change = route_change
+    page.route_forward = route_forward
+    page.route_backward = route_backward
+
     page.on_view_pop = view_poped
 
+    # Clear all views
+    page.views.clear()
+
     # Go to home page
-    page.go('/')
+    page.route_change('/')
 
 
 if __name__ == '__main__':
