@@ -4,6 +4,7 @@ from flet import ElevatedButton
 
 from .components.inputField import InputField 
 from .components.itemListCommit import ItemListCommit 
+from .components.shortly import Shortly 
 from .layouts.form_layout import FormLayout
 from .layouts.auth_layout import Auth
 
@@ -17,20 +18,14 @@ def home(page: ft.Page, **kwargs) -> ft.View:
         
     body = FormLayout([
         InputField('E-mail'),
-        InputField('Senha'),
-        ElevatedButton(text="Entrar",width=250,height=50.7,bgcolor="#00FFA3", on_click=lambda _: page.route_forward("/compromissos"))
+        InputField('Senha', True),
+        ElevatedButton(text="Entrar",width=250,height=50.7,bgcolor="#00FFA3", on_click=lambda _:page.route_forward("/compromissos"))
     ], 'Primeira vez?', 'Registre-se', page, 'cadastro')
 
     view.controls.append(body)
 
-   
-    
-    # Return the view
     return view
 
-
-
-##ft.app(name=agenda, target=home)
 
 def cadastro(page: ft.Page) -> ft.View:
     view = ft.View()
@@ -38,7 +33,7 @@ def cadastro(page: ft.Page) -> ft.View:
     body = FormLayout([
         InputField('Nome'),
         InputField('E-mail'),
-        InputField('Senha'),
+        InputField('Senha', True),
         ElevatedButton(text="Criar conta",width=250,height=50.7,bgcolor="#00FFA3")
     ], 'Já tem conta?', 'Clique aqui', page, '')
     view.controls.append(body)
@@ -92,28 +87,44 @@ def compromissos(page: ft.Page) -> ft.View:
     
     body = Auth(view, userDados, bgColor, page, ft.Column(
             returnItemCommit(listItem),
-            alignment = ft.MainAxisAlignment.CENTER
-        ), "Lista de Compromissos")
-    view.controls.append(body)
+            alignment=ft.MainAxisAlignment.CENTER
+        ), [
+            ft.Text('Lista de compromissos', weight='bold', size=40),
+            ft.Container(
+                ft.Icon(ft.icons.SEARCH, color='black'),
+                padding=ft.padding.all(10),
+                margin=ft.margin.all(10),
+                bgcolor='white',
+                border_radius=40,
+                width=45,
+                alignment=ft.alignment.center
+            ),]
+        )
+    view.controls.append(body)  
     return view
 
 
 
 def calendario(page: ft.Page) -> ft.View:
-    
     view = ft.View()
     body = Auth(view, userDados, bgColor, page, ft.Column([
-            ft.Container(ft.Text("Em breve")),
-        ],
+        Shortly(),  
+    ],
         
-        alignment = ft.MainAxisAlignment.CENTER
-    ), "Seu Calendário")
-    
+        alignment=ft.MainAxisAlignment.CENTER
+    ), [])
+    view.bgcolor='#191F26'
     view.controls.append(body)
     return view
 
 def contatos(page: ft.Page) -> ft.View:
-    
     view = ft.View()
-
+    body = Auth(view, userDados, bgColor, page, ft.Column([
+        Shortly(),  
+    ],
+        
+        alignment=ft.MainAxisAlignment.CENTE
+    ), [])
+    view.bgcolor='#191F26'
+    view.controls.append(body)
     return view

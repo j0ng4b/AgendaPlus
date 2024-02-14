@@ -4,13 +4,13 @@ from ..components.itemMenu import ItemMenu
 from ..components.btnReturnPage import BtnReturnPage 
 
 class Auth(ft.UserControl):
-    def __init__(self, view, userDados, bgColor, page, content, title):
+    def __init__(self, view, userDados, bgColor, page, content, titleContent):
         super().__init__()
         view.bgcolor=bgColor
-        view.padding = 0
-        view.window_resizable = False,
-        view.vertical_alignment = 'start'
-        view.horizontal_alignment = 'center'
+        view.padding=0
+        view.window_resizable=False,
+        view.vertical_alignment='start'
+        view.horizontal_alignment='center'
         view.drawer = ft.NavigationDrawer(
             controls=[
                 ft.Container(height=12),
@@ -20,7 +20,7 @@ class Auth(ft.UserControl):
                             Column([
                                 Container(
                                     Text(f"Olá, {userDados["name"]}", font_family="Rounded Mplus 1C Bould", size=30,color="black", weight="bold"),
-                                    alignment = alignment.center, 
+                                    alignment=alignment.center, 
                                 ),
                                 ft.Divider(thickness=1, color="black"),
                             ]),
@@ -38,27 +38,27 @@ class Auth(ft.UserControl):
                             Row([
                                     ft.Icon(ft.icons.LOGOUT, color='black'),
                                 ], 
-                                alignment = MainAxisAlignment.CENTER,
+                                alignment=MainAxisAlignment.CENTER,
                             ),
-                            on_click=lambda _: page.route_forward(''),
-                            padding = padding.all(10),
-                            margin = margin.all(10),
-                            bgcolor = 'white',
-                            border_radius = 40,
-                            width = 45,
-                            alignment = alignment.center_left
+                            on_click=lambda _:page.route_forward(''),
+                            padding=padding.all(10),
+                            margin=margin.all(10),
+                            bgcolor='white',
+                            border_radius=40,
+                            width=45,
+                            alignment=alignment.center_left
                         ),
-                    ], alignment = MainAxisAlignment.SPACE_BETWEEN),
+                    ], alignment=MainAxisAlignment.SPACE_BETWEEN),
                     height = 650
                 ),
 
             ],
-            bgcolor = '#00B2FF',
+            bgcolor='#00B2FF',
         )
         
         
         def show_drawer(e):
-            view.drawer.open = True
+            view.drawer.open=True
             view.drawer.update()
 
         
@@ -79,32 +79,20 @@ class Auth(ft.UserControl):
                         [
                             Container(
                                 Row(
-                                    [
-                                        Text(title, weight='bold', size = 40),
-                                        Container(
-                                            ft.Icon(ft.icons.SEARCH, color='black'),
-                                            padding = padding.all(10),
-                                            margin = margin.all(10),
-                                            bgcolor = 'white',
-                                            border_radius = 40,
-                                            width = 45,
-                                            alignment = alignment.center
-                                        ),
-                                    ],
-                                    alignment = ft.MainAxisAlignment.SPACE_BETWEEN
+                                    titleContent,
+
+                                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN
                                 ),  
-                                margin = margin.only(bottom=25),
+                                margin=margin.only(bottom=25),
                             ),
                             Container(
-                                content,
-                                
+                                content,     
                             ),
                         ],
                     ),
-                    margin = margin.only(left=100, right=100),
+                    margin=margin.only(left=100, right=100),
                 ),
             ],
-            
         ), )
         
     def build(self):

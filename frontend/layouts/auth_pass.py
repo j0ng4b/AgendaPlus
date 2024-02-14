@@ -4,11 +4,11 @@ from ..components.itemMenu import ItemMenu
         
 def auth_layout(view, userDados, bgColor, page):
     view.bgcolor=bgColor
-    view.padding = 0
-    view.window_resizable = False,
-    view.vertical_alignment = 'start'
-    view.horizontal_alignment = 'center'
-    view.drawer = ft.NavigationDrawer(
+    view.padding=0
+    view.window_resizable=False,
+    view.vertical_alignment='start'
+    view.horizontal_alignment='center'
+    view.drawer=ft.NavigationDrawer(
         controls=[
             ft.Container(height=12),
             Container(
@@ -17,7 +17,7 @@ def auth_layout(view, userDados, bgColor, page):
                         Column([
                             Container(
                                 Text(f"Olá, {userDados["name"]}", font_family="Rounded Mplus 1C Bould", size=30,color="black", weight="bold"),
-                                alignment = alignment.center, 
+                                alignment=alignment.center, 
                             ),
                             ft.Divider(thickness=1, color="black"),
                         ]),
@@ -25,9 +25,9 @@ def auth_layout(view, userDados, bgColor, page):
                     
                     Container(
                         Column([
-                            ItemList("Compromissos", ft.icons.CALENDAR_TODAY_OUTLINED),
-                            ItemList("Calendário", ft.icons.CALENDAR_MONTH_OUTLINED),
-                            ItemList("Contatos", ft.icons.PERM_CONTACT_CALENDAR_OUTLINED), 
+                            ItemMenu("Compromissos", ft.icons.CALENDAR_TODAY_OUTLINED),
+                            ItemMenu("Calendário", ft.icons.CALENDAR_MONTH_OUTLINED),
+                            ItemMenu("Contatos", ft.icons.PERM_CONTACT_CALENDAR_OUTLINED), 
                         ]),
                     ),
                     
@@ -35,26 +35,26 @@ def auth_layout(view, userDados, bgColor, page):
                         Row([
                                 ft.Icon(ft.icons.LOGOUT, color='black'),
                             ], 
-                            alignment = MainAxisAlignment.CENTER
+                            alignment=MainAxisAlignment.CENTER
                         ),
-                        padding = padding.all(10),
-                        margin = margin.all(10),
-                        bgcolor = 'white',
-                        border_radius = 40,
-                        width = 45,
-                        alignment = alignment.center_left
+                        padding=padding.all(10),
+                        margin=margin.all(10),
+                        bgcolor='white',
+                        border_radius=40,
+                        width=45,
+                        alignment=alignment.center_left
                     ),
-                ], alignment = MainAxisAlignment.SPACE_BETWEEN),
-                height = 650
+                ], alignment=MainAxisAlignment.SPACE_BETWEEN),
+                height=650
             ),
 
         ],
-        bgcolor = '#00B2FF',
+        bgcolor='#00B2FF',
     )
     
     
     def show_drawer(e):
-        view.drawer.open = True
+        view.drawer.open=True
         view.drawer.update()
 
     
@@ -67,12 +67,12 @@ def auth_layout(view, userDados, bgColor, page):
         actions=[
             Container(
                 Image(
-                    src = "../assets/returnIcon.png",
-                    width = 30,
-                    height = 30,
+                    src="../assets/returnIcon.png",
+                    width=30,
+                    height=30,
                 ),
-                on_click=lambda _: page.route_backward(),
-                margin = margin.only(right = 10),
+                on_click=lambda _:page.route_backward(),
+                margin=margin.only(right=0),
             )
         ],
     )
