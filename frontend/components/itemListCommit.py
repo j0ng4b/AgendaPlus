@@ -1,11 +1,10 @@
 import flet as ft
 from flet import Container
 
+
 class ItemListCommit(ft.UserControl):
-    
     def __init__(self, item, color):
         super().__init__()
-            
         self.body = [
             Container(
                 ft.Text(item, size=25),
@@ -16,8 +15,6 @@ class ItemListCommit(ft.UserControl):
                 border_radius=40
             ),
         ]
-    
+
     def build(self):
         return self.body
-    
-    
