@@ -91,7 +91,7 @@ E para o front-end execute:
 É importe que se inicie primeiro o back-end e depois o front-end porque o
 front-end depende de dados que são servidos pelo back-end.
 
-== Autores e licensa
+== Autores e licença
 .Autores
 - Igor <igor.menino23@gmail.com>
 - Jonatha Gabriel <jonathagabrielns@gmail.com>
