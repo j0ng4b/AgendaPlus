@@ -128,7 +128,7 @@ def contatos(page: ft.Page) -> ft.View:
         Shortly(),
     ],
 
-        alignment=ft.MainAxisAlignment.CENTE
+        alignment=ft.MainAxisAlignment.CENTER
     ), [])
     view.bgcolor = '#191F26'
     view.controls.append(body)
