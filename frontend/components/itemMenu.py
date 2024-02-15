@@ -10,8 +10,10 @@ class ItemMenu(ft.UserControl):
             e.control.bgcolor = 'white' if e.data == 'true' else 'black'
             hoverCheck = 'black' if e.data == 'true' else 'white'
 
-            for control in e.control.content.controls:
-                control.color = hoverCheck
+            i = 0
+            while i < len(e.control.content.controls):
+                e.control.content.controls[i].color = hoverCheck
+                i += 1
 
             e.control.update()
 

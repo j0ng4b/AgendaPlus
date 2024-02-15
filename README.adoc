@@ -93,7 +93,9 @@ front-end depende de dados que são servidos pelo back-end.
 
 == Autores e licensa
 .Autores
+- Igor <igor.menino23@gmail.com>
 - Jonatha Gabriel <jonathagabrielns@gmail.com>
+- Kéwen <kewensilva58@gmail.com>
 
 O projeto pode ser encontrado em https://github.com/j0ng4b/AgendaPlus e foi
 licenciado sob os termos da `BSD-3-Clause` para mais detalhes visite o
