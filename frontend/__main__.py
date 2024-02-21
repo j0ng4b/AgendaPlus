@@ -1,6 +1,6 @@
-import flet as ft
+import flet
 
 from . import main
 
 # Run front-end
-ft.app(target=main)
+flet.app(target=main)
