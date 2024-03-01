@@ -4,7 +4,7 @@ import os.path
 from typing import Optional, Dict
 
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, Blueprint
 
 
 def create_app(test_config: Optional[Dict[str, int]] = None) -> Flask:
@@ -44,6 +44,8 @@ def bootstrap_di(app: Flask) -> None:
 
 
 def bootstrap_blueprints(app: Flask) -> None:
+    api = Blueprint('api', __name__)
+
     blueprints_root = os.path.join(app.root_path, 'blueprints')
     for blueprint_file in os.listdir(blueprints_root):
         if blueprint_file.startswith('__') \
@@ -61,10 +63,12 @@ def bootstrap_blueprints(app: Flask) -> None:
         blueprint_name += '_bp'
         if blueprint_name in blueprint_module.__dict__:
             # Try to register the blueprint <blueprint_name>_bp
-            app.register_blueprint(blueprint_module.__dict__[blueprint_name])
+            api.register_blueprint(blueprint_module.__dict__[blueprint_name])
         else:
             print(f'Blueprint {blueprint_name} for {blueprint_module_name}'
                   f'not found!')
+
+    app.register_blueprint(api, url_prefix='/api')
 
 
 def main() -> None:
