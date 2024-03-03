@@ -61,6 +61,9 @@ def sign(payload: Dict[str, object], secret_key: str, **kwargs: str) -> str:
 
         payload['exp'] = int(time.time()) + expire
 
+    if 'iat' not in payload:
+        payload['iat'] = int(time.time())
+
     # Encode payload
     payload_base64: str = _base64_url_encode(json.dumps(payload,
                                                         separators=(',', ':')))
