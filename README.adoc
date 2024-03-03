@@ -80,7 +80,15 @@ sair/desativar o ambiente virtual só basta executar o comando `deactivate`.
 Para executar o sistema é necessário iniciar individualmente o back-end e depois
 o front-end do sistema.
 
-Para iniciar a execução do back-end:
+Para iniciar a execução do back-end primeiro copie o arquivo .env.backend.sample
+para .env.backend, esse arquivo é onde reside as configurações do back-end como
+porta de execução, tipo de ambiente entre outras.
+
+É recomendado copiar o arquivo .env.backend.sample pois ele já apresenta alguns
+__defaults__ razoáveis sendo apenas necessário definir as chaves secretas para a
+geração dos tokens de autenticação.
+
+NOTE: Para saber como gerar uma chave secreta aleatória veja <<secret-keys>>.
 
     python -m backend
 
@@ -91,9 +99,27 @@ E para o front-end execute:
 É importe que se inicie primeiro o back-end e depois o front-end porque o
 front-end depende de dados que são servidos pelo back-end.
 
+[#secret-keys]
+==== Gerando chaves secretas aleatórias
+É importante gerar uma chave secreta aleatória pois assim garante a segurança na
+autenticação dos usuários além de não permitir acesso a dados de um usuário por
+outro usuário mal intencionado.
+
+WARNING: Gerar uma chave secreta é importante pois sem ela os tokens não são
+gerados corretamente e nem tão pouco são seguros.
+
+A chave secreta também dever ser aleatória para que dificulte a vida dos
+__hackers__. O método mais fácil de gerar uma chave secreta aleatória é usando o
+próprio `Python` através do módulo `secrets`.
+
+Exemplo de como gerar uma chave secreta de 32 bytes:
+
+    python -c 'import secrets; print(secrets.token_hex(32))'
+
+Com a chave gerada basta copiá-la para onde ela será usada.
+
 == Autores e licença
 .Autores
-- Igor <igor.menino23@gmail.com>
 - Jonatha Gabriel <jonathagabrielns@gmail.com>
 - Kéwen <kewensilva58@gmail.com>
 

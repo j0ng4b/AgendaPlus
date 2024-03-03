@@ -2,5 +2,9 @@
 __pycache__/
 
 instance/
+
+# Ignores .env file except ones ending in .sample
 .env
+.env.*
+!.env.*.sample
 

@@ -1,7 +1,6 @@
-import os
 from typing import Optional
 
-from flask import Blueprint, Response, jsonify, request
+from flask import Blueprint, Response, jsonify, request, current_app
 from kink import inject
 
 from backend.blueprints import BadAPIUsage, HTTPStatus, bad_api_usage_handler
@@ -16,6 +15,8 @@ auth_bp.register_error_handler(BadAPIUsage, bad_api_usage_handler)
 @auth_bp.route('/register', methods=['POST'])
 @inject
 def register(user_service: IUserService) -> Response:
+    config = current_app.config
+
     name: Optional[str] = request.form.get('name', None)
     email: Optional[str] = request.form.get('email', None)
     password: Optional[str] = request.form.get('password', None)
@@ -36,16 +37,20 @@ def register(user_service: IUserService) -> Response:
     return jsonify({
         'status': 'success',
         'access_token': jwt.sign({
-            'id': user_id,
-            'name': name,
-            'email': email
-        }, secret_key=os.environ['SECRET_KEY'], expIn='15m')
+                    'id': user_id,
+                    'name': name,
+                    'email': email
+                },
+                secret_key=str(config.get('AUTH_AT_SECRET_KEY')),
+                expIn=str(config.get('AUTH_AT_EXPIRATION')))
     })
 
 
 @auth_bp.route('/login', methods=['POST'])
 @inject
 def login(user_service: IUserService) -> Response:
+    config = current_app.config
+
     email: Optional[str] = request.form.get('email', None)
     password: Optional[str] = request.form.get('password', None)
 
@@ -60,13 +65,16 @@ def login(user_service: IUserService) -> Response:
 
     # TODO: hash and salt password before compared with database ones
     if user.password != password:
-        raise BadAPIUsage('wrong user e-mail or password')
+        raise BadAPIUsage('wrong password',
+                          status_code=HTTPStatus.UNAUTHORIZED)
 
     return jsonify({
         'status': 'success',
         'access_token': jwt.sign({
-            'id': user.id,
-            'name': user.name,
-            'email': user.email
-        }, secret_key=os.environ['AUTH_SECRET_KEY'], expIn='15m')
+                    'id': user.id,
+                    'name': user.name,
+                    'email': user.email
+                },
+                secret_key=str(config.get('AUTH_AT_SECRET_KEY')),
+                expIn=str(config.get('AUTH_AT_EXPIRATION')))
     })
