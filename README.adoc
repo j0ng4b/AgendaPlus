@@ -80,13 +80,13 @@ sair/desativar o ambiente virtual só basta executar o comando `deactivate`.
 Para executar o sistema é necessário iniciar individualmente o back-end e depois
 o front-end do sistema.
 
-Para iniciar a execução do back-end primeiro copie o arquivo .env.backend.sample
-para .env.backend, esse arquivo é onde reside as configurações do back-end como
-porta de execução, tipo de ambiente entre outras.
+Para iniciar a execução do back-end primeiro copie o arquivo
+`.env.backend.sample` para `.env.backend,` esse arquivo é onde reside as
+configurações do back-end como porta de execução, tipo de ambiente entre outras.
 
-É recomendado copiar o arquivo .env.backend.sample pois ele já apresenta alguns
-__defaults__ razoáveis sendo apenas necessário definir as chaves secretas para a
-geração dos tokens de autenticação.
+É recomendado copiar o arquivo `.env.backend.sample` pois ele já apresenta
+alguns __defaults__ razoáveis sendo apenas necessário definir as chaves secretas
+para a geração dos tokens de autenticação.
 
 NOTE: Para saber como gerar uma chave secreta aleatória veja <<secret-keys>>.
 
