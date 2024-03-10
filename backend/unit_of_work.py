@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from types import TracebackType
 from typing import Optional, Self, Type
 
-from backend.repository.user import *
+from backend.repository.user import IUserRepository, UserRepositoryInMemory
 
 
 class IUnitOfWork(ABC):

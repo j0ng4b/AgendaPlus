@@ -1,16 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Optional
 
-from backend.repository import IRepository, IRepositoryInMemory
 from backend.models import User
-
-__all__ = [
-    'IUserRepository',
-    'UserRepositoryInMemory'
-]
+from backend.repository.generic import IRepository, IRepositoryInMemory
 
 
-class IUserRepository(IRepository[User], ABC):
+class IUserRepository(IRepository[User]):
     @abstractmethod
     def get_by_email(self, email: str) -> Optional[User]:
         raise NotImplementedError
