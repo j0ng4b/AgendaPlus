@@ -12,3 +12,9 @@ class User(BaseModel):
     name: str
     email: str
     password: str
+
+
+@dataclass
+class RefreshToken(BaseModel):
+    iat: str
+    user_id: int
