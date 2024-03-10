@@ -1,12 +1,14 @@
+from os import environ
 from typing import Optional
 
-from flask import Blueprint, Response, jsonify, request, current_app
+from flask import Blueprint, Response, jsonify, request
 from kink import inject
 
 from backend.blueprints import BadAPIUsage, HTTPStatus, bad_api_usage_handler
 from backend.models import User
-from backend.services.user import IUserService
 from backend.security import jwt
+from backend.services.refresh_token import IRefreshTokenService
+from backend.services.user import IUserService
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 auth_bp.register_error_handler(BadAPIUsage, bad_api_usage_handler)
@@ -14,12 +16,11 @@ auth_bp.register_error_handler(BadAPIUsage, bad_api_usage_handler)
 
 @auth_bp.route('/register', methods=['POST'])
 @inject
-def register(user_service: IUserService) -> Response:
-    config = current_app.config
-
-    name: Optional[str] = request.form.get('name', None)
-    email: Optional[str] = request.form.get('email', None)
-    password: Optional[str] = request.form.get('password', None)
+def register(user_service: IUserService,
+             refresh_token_service: IRefreshTokenService) -> Response:
+    name: Optional[str] = request.form.get('name', default=None)
+    email: Optional[str] = request.form.get('email', default=None)
+    password: Optional[str] = request.form.get('password', default=None)
 
     if name is None or name == '':
         raise BadAPIUsage('user name not provided')
@@ -34,25 +35,31 @@ def register(user_service: IUserService) -> Response:
     # TODO: hash and salt password before add to database
     user_id = user_service.add(User(name, email, password)).id
 
-    return jsonify({
+    response: Response = jsonify({
         'status': 'success',
         'access_token': jwt.sign({
                     'id': user_id,
                     'name': name,
                     'email': email
                 },
-                secret_key=str(config.get('AUTH_AT_SECRET_KEY')),
-                expIn=str(config.get('AUTH_AT_EXPIRATION')))
+                secret_key=str(environ.get('AUTH_AT_SECRET_KEY')),
+                expIn=str(environ.get('AUTH_AT_EXPIRATION')))
     })
+
+    refresh_token, csrf_token = refresh_token_service.generate(user_id)
+    response.set_cookie('csrf_token', value=csrf_token, secure=True)
+    response.set_cookie('refresh_token', value=refresh_token,
+                        httponly=True, secure=True)
+
+    return response
 
 
 @auth_bp.route('/login', methods=['POST'])
 @inject
-def login(user_service: IUserService) -> Response:
-    config = current_app.config
-
-    email: Optional[str] = request.form.get('email', None)
-    password: Optional[str] = request.form.get('password', None)
+def login(user_service: IUserService,
+          refresh_token_service: IRefreshTokenService) -> Response:
+    email: Optional[str] = request.form.get('email', default=None)
+    password: Optional[str] = request.form.get('password', default=None)
 
     if email is None or email == '':
         raise BadAPIUsage('user e-mail not provided')
@@ -67,14 +74,59 @@ def login(user_service: IUserService) -> Response:
     if user.password != password:
         raise BadAPIUsage('wrong password',
                           status_code=HTTPStatus.UNAUTHORIZED)
-
-    return jsonify({
+    response: Response = jsonify({
         'status': 'success',
         'access_token': jwt.sign({
                     'id': user.id,
                     'name': user.name,
                     'email': user.email
                 },
-                secret_key=str(config.get('AUTH_AT_SECRET_KEY')),
-                expIn=str(config.get('AUTH_AT_EXPIRATION')))
+                secret_key=str(environ.get('AUTH_AT_SECRET_KEY')),
+                expIn=str(environ.get('AUTH_AT_EXPIRATION')))
     })
+
+    refresh_token, csrf_token = refresh_token_service.generate(user.id)
+    response.set_cookie('csrf_token', value=csrf_token, secure=True)
+    response.set_cookie('refresh_token', value=refresh_token,
+                        httponly=True, secure=True)
+
+    return response
+
+
+@auth_bp.route('/refresh-token', methods=['GET'])
+@inject
+def refresh_token(user_service: IUserService,
+                  refresh_token_service: IRefreshTokenService) -> Response:
+    csrf_token = request.headers.get('X-CSRF-Token', None)
+    if csrf_token is None:
+        raise BadAPIUsage('invalid CSRF token',
+                          status_code=HTTPStatus.FORBIDDEN)
+
+    refresh_token = request.cookies.get('refresh_token', default=None)
+    if refresh_token is None:
+        raise BadAPIUsage('invalid refresh token',
+                          status_code=HTTPStatus.FORBIDDEN)
+
+    valid, result = refresh_token_service.verify(refresh_token, csrf_token)
+    if not valid:
+        raise BadAPIUsage(result, status_code=HTTPStatus.UNAUTHORIZED)
+
+    user = user_service.get_by_id(result['id'])
+
+    response: Response = jsonify({
+        'status': 'success',
+        'access_token': jwt.sign({
+                    'id': user.id,
+                    'name': user.name,
+                    'email': user.email
+                },
+                secret_key=str(environ.get('AUTH_AT_SECRET_KEY')),
+                expIn=str(environ.get('AUTH_AT_EXPIRATION')))
+    })
+
+    refresh_token, csrf_token = refresh_token_service.generate(user.id)
+    response.set_cookie('csrf_token', value=csrf_token, secure=True)
+    response.set_cookie('refresh_token', value=refresh_token,
+                        httponly=True, secure=True)
+
+    return response
