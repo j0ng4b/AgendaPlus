@@ -14,6 +14,7 @@ class IUserRepository(IRepository[User]):
 class UserRepositoryInMemory(IUserRepository, IRepositoryInMemory[User]):
     def __init__(self) -> None:
         super().__init__()
+        self._data = {}
 
     def get_by_email(self, email: str) -> Optional[User]:
         for user in self._data.values():
