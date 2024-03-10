@@ -79,7 +79,7 @@ def sign(payload: Dict[str, object], secret_key: str, **kwargs: str) -> str:
     return f'{header_base64}.{payload_base64}.{signature_base64}'
 
 
-def verify(token: str, secret_key: str) -> None:
+def verify(token: str, secret_key: str) -> JSONType:
     # Split token parts
     token_parts: List[str] = token.split('.')
 
@@ -101,3 +101,5 @@ def verify(token: str, secret_key: str) -> None:
     signature_base64: str = _base64_url_encode(signature)
     if signature_base64 != token_parts[2]:
         raise JWTInvalidToken('wrong token signature')
+
+    return payload
