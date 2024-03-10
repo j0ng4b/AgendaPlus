@@ -39,8 +39,11 @@ def bootstrap_di(app: Flask) -> None:
 
     # Services
     from .services.user import IUserService, UserService
+    from .services.refresh_token import IRefreshTokenService, \
+        RefreshTokenService
 
     di[IUserService] = di[UserService]
+    di[IRefreshTokenService] = di[RefreshTokenService]
 
 
 def bootstrap_blueprints(app: Flask) -> None:
