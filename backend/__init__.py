@@ -1,17 +1,20 @@
 import importlib
 import os
 import os.path
-from typing import Dict, Any, cast
+from typing import Optional, Dict, Any, cast
 
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from flask import Flask, Blueprint
 
 
-def create_app(config: Dict[str, Any]) -> Flask:
+def create_app(test_config: Optional[Dict[str, Any]] = None) -> Flask:
     app = Flask(__name__.split('.')[0], instance_relative_config=True)
 
     # Load configurations
-    app.config.from_mapping(config)
+    if test_config is None:
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        app.config.from_mapping(test_config)
 
     # Create instance directory
     try:
@@ -70,12 +73,13 @@ def bootstrap_blueprints(app: Flask) -> None:
 
 def main() -> None:
     # Load environment variables from .env files
-    config = {
-        **dotenv_values('.env.backend')
-    }
+    load_dotenv('.env.backend')
 
-    app = create_app(config)
-    app.run(port=cast(int, config.get('SERVER_PORT', 5000)), debug=True)
+    # Debug server port
+    SERVER_PORT = os.environ.get('SERVER_PORT', default=5000)
+
+    app = create_app()
+    app.run(port=cast(int, SERVER_PORT), debug=True)
 
 
 if __name__ == '__main__':
