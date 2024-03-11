@@ -123,7 +123,7 @@ Exemplo de como gerar uma chave secreta de 32 bytes:
 
 Com a chave gerada basta copiá-la para onde ela será usada.
 
-===== Usando HTTPS no servidor de desenvolvimento do back-end
+==== Usando HTTPS no servidor de desenvolvimento do back-end
 Para que o front-end consiga se comunicar com o back-end, enviando os cookies
 automaticamente, é necessário uma de duas opções:
 
