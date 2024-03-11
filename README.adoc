@@ -92,7 +92,12 @@ NOTE: Para saber como gerar uma chave secreta aleatória veja <<secret-keys>>.
 
     python -m backend
 
-E para o front-end execute:
+Para iniciar a execução do front-end primeiro copie o arquivo
+`.env.frontend.sample` para `.env.frontend,` esse arquivo é onde reside as
+configurações do front-end.
+
+É recomendado copiar o arquivo `.env.frontend.sample` pois ele já apresenta
+alguns __defaults__ razoáveis. Após isso inicie o front-end com:
 
     flet run -dm frontend
 
@@ -118,6 +123,25 @@ Exemplo de como gerar uma chave secreta de 32 bytes:
 
 Com a chave gerada basta copiá-la para onde ela será usada.
 
+===== Usando HTTPS no servidor de desenvolvimento do back-end
+Para que o front-end consiga se comunicar com o back-end, enviando os cookies
+automaticamente, é necessário uma de duas opções:
+
+1. Modificar a variável de ambiente `VERIFY_SSL_CERTIFICATES` do front-end
+autorizando o front-end a ignorar a verificação de certificados SSL. Esse é o
+método mais simples, mas menos seguro.
+
+2. Se executando o back-end com um servidor de desenvolvimento é necessário
+gerar um certificado e fazer com que ele seja confiável, esse é um processo
+totalmente dependente de plataforma. Uma vez que você tenha um certificado e uma
+chave é possível definir as variáveis de ambiente `SERVER_SSL_CERTIFICATE` e
+`SERVER_SSL_CERTIFICATE_KEY`.
+
+WARNING: Quando em um ambiente de produção o valor da variável de ambiente
+`VERIFY_SSL_CERTIFICATES` é totalmente ignorando, forçando a verificação de
+certificados SSL.
+
+
 == Autores e licença
 .Autores
 - Jonatha Gabriel <jonathagabrielns@gmail.com>
@@ -127,4 +151,3 @@ O projeto pode ser encontrado em https://github.com/j0ng4b/AgendaPlus e foi
 licenciado sob os termos da `BSD-3-Clause` para mais detalhes visite o
 arquivo link:LICENSE[].
 
-== Conclusão e agradecimentos
