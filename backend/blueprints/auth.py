@@ -112,6 +112,9 @@ def refresh_token(user_service: IUserService,
         raise BadAPIUsage(result, status_code=HTTPStatus.UNAUTHORIZED)
 
     user = user_service.get_by_id(result['id'])
+    if user is None:
+        raise BadAPIUsage('user not found',
+                          status_code=HTTPStatus.NOT_FOUND)
 
     response: Response = jsonify({
         'status': 'success',

@@ -16,5 +16,5 @@ class User(BaseModel):
 
 @dataclass
 class RefreshToken(BaseModel):
-    iat: str
+    iat: int
     user_id: int

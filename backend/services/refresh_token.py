@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from os import environ
 from time import time
-from typing import Any
+from typing import Any, cast
 from uuid import uuid4
 
 from kink import inject
@@ -66,8 +66,10 @@ class RefreshTokenService(IRefreshTokenService):
                            'match the header CSRF token')
 
         # The below code will check for token reuse
-        token = self._uow.refresh_token.get_by_user_id(payload['id'])
-        if token.iat > payload['iat']:
-            return (False, 'refresh token reuse')
+        token = self._uow.refresh_token.get_by_user_id(cast(int,
+                                                            payload['id']))
+        if token is not None:
+            if token.iat > cast(int, payload['iat']):
+                return (False, 'refresh token reuse')
 
         return (True, payload)
