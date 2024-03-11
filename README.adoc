@@ -119,7 +119,7 @@ próprio `Python` através do módulo `secrets`.
 
 Exemplo de como gerar uma chave secreta de 32 bytes:
 
-    python -c 'import secrets; print(secrets.token_hex(32))'
+    python -c "import secrets; print(secrets.token_hex(32))"
 
 Com a chave gerada basta copiá-la para onde ela será usada.
 
