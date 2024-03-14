@@ -2,12 +2,13 @@ import flet as ft
 from flet import Text, Container, Column, Row, margin, alignment, padding, \
     MainAxisAlignment, Stack
 
-from ..components.itemMenu import ItemMenu
-from ..components.btnReturnPage import BtnReturnPage
+from frontend.components.item_menu import ItemMenu
+from frontend.components.button_return_page import ButtonReturnPage
 
 
 class Auth(ft.UserControl):
-    def __init__(self, view, userDados, bgColor, page, content, titleContent):
+    def __init__(self, view, userDados, bgColor, router, content,
+                 titleContent):
         super().__init__()
 
         view.bgcolor = bgColor
@@ -38,15 +39,15 @@ class Auth(ft.UserControl):
                             Column([
                                 ItemMenu("Compromissos",
                                          ft.icons.CALENDAR_TODAY_OUTLINED,
-                                         page,
+                                         router,
                                          'compromissos'),
                                 ItemMenu("Calendário",
                                          ft.icons.CALENDAR_MONTH_OUTLINED,
-                                         page,
+                                         router,
                                          'calendario'),
                                 ItemMenu("Contatos",
                                          ft.icons.PERM_CONTACT_CALENDAR_OUTLINED,
-                                         page,
+                                         router,
                                          'contatos'),
                             ]),
                         ),
@@ -55,7 +56,7 @@ class Auth(ft.UserControl):
                                     ft.Icon(ft.icons.LOGOUT, color='black'),
                                 ],
                                 alignment=MainAxisAlignment.CENTER),
-                            on_click=lambda _: page.route_forward(''),
+                            on_click=lambda _: router.route_forward(''),
                             padding=padding.all(10),
                             margin=margin.all(10),
                             bgcolor='white',
@@ -83,7 +84,7 @@ class Auth(ft.UserControl):
                        size=30, color="white", weight="bold"),
             center_title=True,
             bgcolor="#211C1C",
-            actions=[BtnReturnPage(page)],
+            actions=[ButtonReturnPage(router)],
         )
 
         self.body = Container(

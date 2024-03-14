@@ -2,16 +2,17 @@ import flet as ft
 from flet import ElevatedButton
 
 
-from .components.inputField import InputField
-from .components.itemListCommit import ItemListCommit
-from .components.shortly import Shortly
-from .layouts.form_layout import FormLayout
-from .layouts.auth_layout import Auth
+from frontend.components.input_field import InputField
+from frontend.components.item_list_commit import ItemListCommit
+from frontend.components.shortly import Shortly
+from frontend.layouts.form_layout import FormLayout
+from frontend.layouts.auth_layout import Auth
+from frontend.router import Router
 
 bgColor = "#0CA6E9"
 
 
-def home(page: ft.Page, **kwargs) -> ft.View:
+def home(router: Router, page: ft.Page) -> ft.View:
     view = ft.View()
 
     view.bgcolor = bgColor
@@ -19,30 +20,34 @@ def home(page: ft.Page, **kwargs) -> ft.View:
     body = FormLayout([
         InputField('E-mail'),
         InputField('Senha', True),
-        ElevatedButton(text="Entrar",
-                       width=250,
-                       height=50.7,
-                       bgcolor="#00FFA3",
-                       on_click=lambda _: page.route_forward("/compromissos"))
-    ], 'Primeira vez?', 'Registre-se', page, 'cadastro')
+        ElevatedButton(
+            text="Entrar",
+            width=250,
+            height=50.7,
+            bgcolor="#00FFA3",
+            on_click=lambda _: router.route_forward("/compromissos"))
+    ], 'Primeira vez?', 'Registre-se', router, 'cadastro')
 
     view.controls.append(body)
-
     return view
 
 
-def cadastro(page: ft.Page) -> ft.View:
+def cadastro(router: Router, page: ft.Page) -> ft.View:
     view = ft.View()
+
     view.bgcolor = bgColor
+
     body = FormLayout([
         InputField('Nome'),
         InputField('E-mail'),
         InputField('Senha', True),
-        ElevatedButton(text="Criar conta",
-                       width=250,
-                       height=50.7,
-                       bgcolor="#00FFA3")
-    ], 'Já tem conta?', 'Clique aqui', page, '')
+        ElevatedButton(
+            text="Criar conta",
+            width=250,
+            height=50.7,
+            bgcolor="#00FFA3")
+    ], 'Já tem conta?', 'Clique aqui', router, '')
+
     view.controls.append(body)
     return view
 
@@ -54,7 +59,7 @@ userDados = {
 }
 
 
-def compromissos(page: ft.Page) -> ft.View:
+def compromissos(router: Router, page: ft.Page) -> ft.View:
     listItem = [
         {
             'id': 0,
@@ -94,7 +99,7 @@ def compromissos(page: ft.Page) -> ft.View:
 
     view = ft.View()
 
-    body = Auth(view, userDados, bgColor, page, ft.Column(
+    body = Auth(view, userDados, bgColor, router, ft.Column(
             returnItemCommit(listItem),
             alignment=ft.MainAxisAlignment.CENTER
         ), [
@@ -113,18 +118,18 @@ def compromissos(page: ft.Page) -> ft.View:
     return view
 
 
-def calendario(page: ft.Page) -> ft.View:
+def calendario(router: Router, page: ft.Page) -> ft.View:
     view = ft.View()
-    body = Auth(view, userDados, bgColor, page, ft.Column([Shortly()],
+    body = Auth(view, userDados, bgColor, router, ft.Column([Shortly()],
                 alignment=ft.MainAxisAlignment.CENTER), [])
     view.bgcolor = '#191F26'
     view.controls.append(body)
     return view
 
 
-def contatos(page: ft.Page) -> ft.View:
+def contatos(router: Router, page: ft.Page) -> ft.View:
     view = ft.View()
-    body = Auth(view, userDados, bgColor, page, ft.Column([
+    body = Auth(view, userDados, bgColor, router, ft.Column([
         Shortly(),
     ],
 

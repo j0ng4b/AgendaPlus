@@ -5,7 +5,7 @@ from flet import Text, Container, Column, Row, margin, alignment, padding, \
 from ..components.itemMenu import ItemMenu
 
 
-def auth_layout(view, userDados, bgColor, page):
+def auth_layout(view, userDados, bgColor, router):
     view.bgcolor = bgColor
     view.padding = 0
     view.window_resizable = False,
@@ -79,7 +79,7 @@ def auth_layout(view, userDados, bgColor, page):
                     width=30,
                     height=30,
                 ),
-                on_click=lambda _: page.route_backward(),
+                on_click=lambda _: router.route_backward(),
                 margin=margin.only(right=0),
             )
         ],

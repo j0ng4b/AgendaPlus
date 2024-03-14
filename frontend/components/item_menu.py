@@ -3,7 +3,7 @@ from flet import padding, Container, Row, MainAxisAlignment, margin, Text
 
 
 class ItemMenu(ft.UserControl):
-    def __init__(self, text, icon, page, route):
+    def __init__(self, text, icon, router, route):
         super().__init__()
 
         def on_hover(e):
@@ -32,7 +32,7 @@ class ItemMenu(ft.UserControl):
                 border_radius=20,
                 on_hover=on_hover,
                 bgcolor='black',
-                on_click=lambda _: page.route_forward(f"/{route}")
+                on_click=lambda _: router.route_forward(f"/{route}")
             ),
         ]
 
