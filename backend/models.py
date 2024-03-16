@@ -1,5 +1,6 @@
 from abc import ABC
 from dataclasses import dataclass, field
+from datetime import datetime
 
 
 @dataclass
@@ -18,6 +19,7 @@ class User(BaseModel):
 class Task(BaseModel):
     summary: str
     description: str
+    date: datetime
     user_id: int
 
 
