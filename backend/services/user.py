@@ -4,7 +4,7 @@ from typing import List, Optional
 from kink import inject
 
 from backend.models import User
-from backend.unit_of_work import IUnitOfWork
+from backend.unit_of_work.generic import IUnitOfWork
 
 
 class IUserService(ABC):

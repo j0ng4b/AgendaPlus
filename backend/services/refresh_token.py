@@ -8,7 +8,7 @@ from kink import inject
 
 from backend.models import RefreshToken
 from backend.security import jwt
-from backend.unit_of_work import IUnitOfWork
+from backend.unit_of_work.generic import IUnitOfWork
 
 
 class IRefreshTokenService(ABC):
