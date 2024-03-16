@@ -33,7 +33,8 @@ def bootstrap_di(app: Flask) -> None:
     from kink import di
 
     # Unit of work
-    from .unit_of_work import IUnitOfWork, UnitOfWorkInMemory
+    from .unit_of_work.generic import IUnitOfWork
+    from .unit_of_work.in_memory import UnitOfWorkInMemory
 
     di[IUnitOfWork] = UnitOfWorkInMemory()
 

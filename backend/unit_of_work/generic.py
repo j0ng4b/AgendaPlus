@@ -2,10 +2,9 @@ from abc import ABC, abstractmethod
 from types import TracebackType
 from typing import Optional, Self, Type
 
-from backend.repository.refresh_token import IRefreshTokenRepository, \
-    RefreshTokenRepositoryInMemory
-from backend.repository.task import ITaskRepository, TaskRepositoryInMemory
-from backend.repository.user import IUserRepository, UserRepositoryInMemory
+from backend.repository.refresh_token import IRefreshTokenRepository
+from backend.repository.task import ITaskRepository
+from backend.repository.user import IUserRepository
 
 
 class IUnitOfWork(ABC):
@@ -32,18 +31,3 @@ class IUnitOfWork(ABC):
     @abstractmethod
     def rollback(self) -> None:
         raise NotImplementedError
-
-
-class UnitOfWorkInMemory(IUnitOfWork):
-    saved: bool = False
-
-    def __init__(self) -> None:
-        self.refresh_token = RefreshTokenRepositoryInMemory()
-        self.task = TaskRepositoryInMemory()
-        self.user = UserRepositoryInMemory()
-
-    def save(self) -> None:
-        self.saved = True
-
-    def rollback(self) -> None:
-        pass
