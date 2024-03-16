@@ -66,10 +66,11 @@ class RefreshTokenService(IRefreshTokenService):
                            'match the header CSRF token')
 
         # The below code will check for token reuse
-        token = self._uow.refresh_token.get_by_user_id(cast(int,
-                                                            payload['id']))
-        if token is not None:
-            if token.iat > cast(int, payload['iat']):
-                return (False, 'refresh token reuse')
+        token = self._uow.refresh_token.get_by_user_id(
+            cast(int, payload['id'])
+        )
+
+        if token is not None and token.iat > cast(int, payload['iat']):
+            return (False, 'refresh token reuse')
 
         return (True, payload)
