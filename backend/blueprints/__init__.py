@@ -46,9 +46,9 @@ class BadAPIUsage(Exception):
         if payload is not None:
             self.payload = payload
 
-
     def to_dict(self) -> dict[str, Any]:
         response = {
+            'status': 'fail',
             'message': self.message
         }
 

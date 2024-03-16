@@ -65,13 +65,17 @@ def sign(payload: Dict[str, object], secret_key: str, **kwargs: str) -> str:
         payload['iat'] = int(time.time())
 
     # Encode payload
-    payload_base64: str = _base64_url_encode(json.dumps(payload,
-                                                        separators=(',', ':')))
+    payload_base64: str = _base64_url_encode(
+        json.dumps(payload, separators=(',', ':'))
+    )
 
     # Generate signature
     header_payload: bytes = f'{header_base64}.{payload_base64}'.encode()
-    signature: bytes = hmac.digest(secret_key.encode(), header_payload,
-                                   hashlib.sha256)
+    signature: bytes = hmac.digest(
+        secret_key.encode(),
+        header_payload,
+        hashlib.sha256
+    )
 
     # Encode signature
     signature_base64: str = _base64_url_encode(signature)
@@ -94,9 +98,11 @@ def verify(token: str, secret_key: str) -> JSONType:
             raise JWTExpiredToken('the token is no more valid')
 
     header_payload: bytes = f'{token_parts[0]}.{token_parts[1]}'.encode()
-    signature: bytes = hmac.digest(secret_key.encode(),
-                                   header_payload,
-                                   hashlib.sha256)
+    signature: bytes = hmac.digest(
+        secret_key.encode(),
+        header_payload,
+        hashlib.sha256
+    )
 
     signature_base64: str = _base64_url_encode(signature)
     if signature_base64 != token_parts[2]:

@@ -48,8 +48,12 @@ def register(user_service: IUserService,
 
     refresh_token, csrf_token = refresh_token_service.generate(user_id)
     response.set_cookie('csrf_token', value=csrf_token, secure=True)
-    response.set_cookie('refresh_token', value=refresh_token,
-                        httponly=True, secure=True)
+    response.set_cookie(
+        'refresh_token',
+        value=refresh_token,
+        httponly=True,
+        secure=True
+    )
 
     return response
 
@@ -67,13 +71,18 @@ def login(user_service: IUserService,
         raise BadAPIUsage('user password not provided')
 
     if (user := user_service.get_by_email(email)) is None:
-        raise BadAPIUsage('e-mail not registered',
-                          status_code=HTTPStatus.NOT_FOUND)
+        raise BadAPIUsage(
+            'e-mail not registered',
+            status_code=HTTPStatus.NOT_FOUND
+        )
 
     # TODO: hash and salt password before compared with database ones
     if user.password != password:
-        raise BadAPIUsage('wrong password',
-                          status_code=HTTPStatus.UNAUTHORIZED)
+        raise BadAPIUsage(
+            'wrong password',
+            status_code=HTTPStatus.UNAUTHORIZED
+        )
+
     response: Response = jsonify({
         'status': 'success',
         'access_token': jwt.sign({
@@ -86,9 +95,14 @@ def login(user_service: IUserService,
     })
 
     refresh_token, csrf_token = refresh_token_service.generate(user.id)
+
     response.set_cookie('csrf_token', value=csrf_token, secure=True)
-    response.set_cookie('refresh_token', value=refresh_token,
-                        httponly=True, secure=True)
+    response.set_cookie(
+        'refresh_token',
+        value=refresh_token,
+        httponly=True,
+        secure=True
+    )
 
     return response
 
@@ -99,13 +113,17 @@ def refresh_token(user_service: IUserService,
                   refresh_token_service: IRefreshTokenService) -> Response:
     csrf_token = request.headers.get('X-CSRF-Token', None)
     if csrf_token is None:
-        raise BadAPIUsage('invalid CSRF token',
-                          status_code=HTTPStatus.FORBIDDEN)
+        raise BadAPIUsage(
+            'invalid CSRF token',
+            status_code=HTTPStatus.FORBIDDEN
+        )
 
     refresh_token = request.cookies.get('refresh_token', default=None)
     if refresh_token is None:
-        raise BadAPIUsage('invalid refresh token',
-                          status_code=HTTPStatus.FORBIDDEN)
+        raise BadAPIUsage(
+            'invalid refresh token',
+            status_code=HTTPStatus.FORBIDDEN
+        )
 
     valid, result = refresh_token_service.verify(refresh_token, csrf_token)
     if not valid:
@@ -113,8 +131,10 @@ def refresh_token(user_service: IUserService,
 
     user = user_service.get_by_id(result['id'])
     if user is None:
-        raise BadAPIUsage('user not found',
-                          status_code=HTTPStatus.NOT_FOUND)
+        raise BadAPIUsage(
+            'user not found',
+            status_code=HTTPStatus.NOT_FOUND
+        )
 
     response: Response = jsonify({
         'status': 'success',
@@ -129,7 +149,11 @@ def refresh_token(user_service: IUserService,
 
     refresh_token, csrf_token = refresh_token_service.generate(user.id)
     response.set_cookie('csrf_token', value=csrf_token, secure=True)
-    response.set_cookie('refresh_token', value=refresh_token,
-                        httponly=True, secure=True)
+    response.set_cookie(
+        'refresh_token',
+        value=refresh_token,
+        httponly=True,
+        secure=True
+    )
 
     return response
