@@ -39,7 +39,6 @@ def register(user_service: IUserService,
         'status': 'success',
         'access_token': jwt.sign({
                     'id': user_id,
-                    'name': name,
                     'email': email
                 },
                 secret_key=str(environ.get('AUTH_AT_SECRET_KEY')),
@@ -87,7 +86,6 @@ def login(user_service: IUserService,
         'status': 'success',
         'access_token': jwt.sign({
                     'id': user.id,
-                    'name': user.name,
                     'email': user.email
                 },
                 secret_key=str(environ.get('AUTH_AT_SECRET_KEY')),
@@ -140,7 +138,6 @@ def refresh_token(user_service: IUserService,
         'status': 'success',
         'access_token': jwt.sign({
                     'id': user.id,
-                    'name': user.name,
                     'email': user.email
                 },
                 secret_key=str(environ.get('AUTH_AT_SECRET_KEY')),
