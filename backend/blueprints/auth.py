@@ -85,7 +85,7 @@ def login(user_service: IUserService,
         )
 
     response: Response = jsonify({
-        'id': user_id,
+        'id': user.id,
         'email': email,
         'status': 'success',
         'access_token': jwt.sign({
@@ -139,8 +139,8 @@ def refresh_token(user_service: IUserService,
         )
 
     response: Response = jsonify({
-        'id': user_id,
-        'email': email,
+        'id': user.id,
+        'email': user.email,
         'status': 'success',
         'access_token': jwt.sign({
                     'id': user.id,

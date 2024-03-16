@@ -24,7 +24,7 @@ def authenticate(function: Callable) -> Callable:
         try:
             jwt.verify(
                 header[7:],
-                secret_key=environ.get('AUTH_AT_SECRET_KEY')
+                secret_key=str(environ.get('AUTH_AT_SECRET_KEY'))
             )
         except jwt.JWTInvalidToken:
             raise BadAPIUsage(
