@@ -39,12 +39,25 @@ def bootstrap_di(app: Flask) -> None:
     di[IUnitOfWork] = UnitOfWorkInMemory()
 
     # Services
-    from .services.user import IUserService, UserService
-    from .services.refresh_token import IRefreshTokenService, \
-        RefreshTokenService
+    services_root = os.path.join(app.root_path, 'services')
+    for service_file in os.listdir(services_root):
+        if service_file.startswith('__') \
+                or not service_file.endswith('.py'):
+            continue
 
-    di[IUserService] = di[UserService]
-    di[IRefreshTokenService] = di[RefreshTokenService]
+        service_name = service_file.strip('.py')
+
+        # Dynamic import the route blueprint
+        service_module = importlib.import_module(
+            f'.services.{service_name}', __package__
+        )
+
+        service_name = f'{service_name.title().replace('_', '')}Service'
+
+        service_interface = service_module.__dict__[f'I{service_name}']
+        service_implementation = service_module.__dict__[service_name]
+
+        di[service_interface] = di[service_implementation]
 
 
 def bootstrap_blueprints(app: Flask) -> None:
@@ -61,8 +74,9 @@ def bootstrap_blueprints(app: Flask) -> None:
 
         # Dynamic import the route blueprint
         blueprint_module_name = f'.blueprints.{blueprint_name}'
-        blueprint_module = importlib.import_module(blueprint_module_name,
-                                                   __package__)
+        blueprint_module = importlib.import_module(
+            blueprint_module_name, __package__
+        )
 
         blueprint_name += '_bp'
         if blueprint_name in blueprint_module.__dict__:
