@@ -1,6 +1,6 @@
 import functools
 from os import environ
-from typing import Callable
+from typing import Any, Callable
 
 from flask import Response, request
 
@@ -8,9 +8,9 @@ from backend.blueprints import BadAPIUsage, HTTPStatus
 from backend.security import jwt
 
 
-def authenticate(function: Callable) -> Callable:
+def authenticate(function: Callable[..., Any]) -> Callable[..., Any]:
     @functools.wraps(function)
-    def wrapper(*args, **kwargs) -> Response:
+    def wrapper(*args: list[Any], **kwargs: dict[str, Any]) -> Any:
         header = request.headers.get('Authorization')
         if header is None:
             raise BadAPIUsage('no authorization token provided')
@@ -38,5 +38,4 @@ def authenticate(function: Callable) -> Callable:
             )
 
         return function(*args, **kwargs)
-
     return wrapper
