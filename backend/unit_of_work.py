@@ -4,12 +4,14 @@ from typing import Optional, Self, Type
 
 from backend.repository.refresh_token import IRefreshTokenRepository, \
     RefreshTokenRepositoryInMemory
+from backend.repository.task import ITaskRepository, TaskRepositoryInMemory
 from backend.repository.user import IUserRepository, UserRepositoryInMemory
 
 
 class IUnitOfWork(ABC):
-    user: IUserRepository
     refresh_token: IRefreshTokenRepository
+    task: ITaskRepository
+    user: IUserRepository
 
     def __enter__(self) -> Self:
         return self
@@ -36,8 +38,9 @@ class UnitOfWorkInMemory(IUnitOfWork):
     saved: bool = False
 
     def __init__(self) -> None:
-        self.user = UserRepositoryInMemory()
         self.refresh_token = RefreshTokenRepositoryInMemory()
+        self.task = TaskRepositoryInMemory()
+        self.user = UserRepositoryInMemory()
 
     def save(self) -> None:
         self.saved = True

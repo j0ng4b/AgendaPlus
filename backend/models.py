@@ -15,6 +15,13 @@ class User(BaseModel):
 
 
 @dataclass
+class Task(BaseModel):
+    summary: str
+    description: str
+    user_id: int
+
+
+@dataclass
 class RefreshToken(BaseModel):
     iat: int
     user_id: int
