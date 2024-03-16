@@ -1,14 +1,18 @@
 from os import environ
-from typing import Callable
+from typing import Any, Callable
 
 from requests import Session
 
 
-def make_url(parent: str):
-    def inner(endpoint: Callable):
+def make_url(parent: str, endpoint: str = None):
+    def inner(function: Callable):
         def wrapper(self, *args, **kwargs):
             base_url = environ.get('BACKEND_API_URL')
-            endpoint_name = endpoint.__name__.replace('_', '-')
+
+            if endpoint is None:
+                endpoint_name = function.__name__.replace('_', '-')
+            else:
+                endpoint_name = endpoint
 
             self.url = f'{base_url}/api/{parent}/{endpoint_name}'
             print(self.url)
@@ -38,7 +42,7 @@ class AgendaPlusAPI:
     def register(self,
                  name: str,
                  email: str,
-                 password: str) -> tuple[bool, str]:
+                 password: str) -> tuple[bool, dict[str, Any]]:
         data = {
             'name': name,
             'email': email,
@@ -47,13 +51,16 @@ class AgendaPlusAPI:
 
         response = self.session.post(self.url, data, verify=self.verify_ssl)
         if response.status_code != 200:
-            return (False, response.json()['message'])
+            return (False, response.json())
 
-        self.access_token = response.json()['access_token']
-        return (True, '')
+        response_json = response.json()
+        self.access_token = response_json.get('access_token')
+
+        response_json.pop('access_token')
+        return (True, response_json)
 
     @make_url('auth')
-    def login(self, email: str, password: str) -> tuple[bool, str]:
+    def login(self, email: str, password: str) -> tuple[bool, dict[str, Any]]:
         data = {
             'email': email,
             'password': password
@@ -61,13 +68,16 @@ class AgendaPlusAPI:
 
         response = self.session.post(self.url, data, verify=self.verify_ssl)
         if response.status_code != 200:
-            return (False, response.json()['message'])
+            return (False, response.json())
 
-        self.access_token = response.json()['access_token']
-        return (True, '')
+        response_json = response.json()
+        self.access_token = response_json.get('access_token')
 
-    @make_url('auth')
-    def refresh_token(self) -> tuple[bool, str]:
+        response_json.pop('access_token')
+        return (True, response_json)
+
+    @make_url('auth', endpoint='refresh-token')
+    def __refresh_token(self) -> tuple[bool, dict[str, Any]]:
         headers = {
             'X-CSRF-Token': self.session.cookies.get('csrf_token')
         }
@@ -79,7 +89,10 @@ class AgendaPlusAPI:
         )
 
         if response.status_code != 200:
-            return (False, response.json()['message'])
+            return (False, response.json())
 
-        self.access_token = response.json()['access_token']
-        return (True, '')
+        response_json = response.json()
+        self.access_token = response_json.get('access_token')
+
+        response_json.pop('access_token')
+        return (True, response_json)
