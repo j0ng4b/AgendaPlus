@@ -47,7 +47,7 @@ def bootstrap_di(app: Flask) -> None:
 
         service_name = service_file.strip('.py')
 
-        # Dynamic import the route blueprint
+        # Dynamic import the services
         service_module = importlib.import_module(
             f'.services.{service_name}', __package__
         )
