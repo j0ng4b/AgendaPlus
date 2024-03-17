@@ -25,6 +25,9 @@ class TaskRepositoryInMemory(ITaskRepository, IRepositoryInMemory[Task]):
         tasks = []
 
         for task in self._data.values():
+            if task.date is None:
+                continue
+
             if task.user_id == user_id and task.date.date() == date.date:
                 tasks.append(task)
 

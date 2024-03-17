@@ -24,6 +24,10 @@ class ITaskService(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    def get_by_user_by_id(self, user_id: int, task_id: int) -> Optional[Task]:
+        raise NotImplementedError
+
+    @abstractmethod
     def get_by_id(self, task_id: int) -> Optional[Task]:
         raise NotImplementedError
 
@@ -56,6 +60,14 @@ class TaskService(ITaskService):
 
     def get_by_user_id(self, user_id: int) -> List[Task]:
         return self._uow.task.get_by_user_id(user_id)
+
+    def get_by_user_by_id(self, user_id: int, task_id: int) -> Optional[Task]:
+        tasks = self._uow.task.get_by_user_id(user_id)
+        for task in tasks:
+            if task.id == task_id:
+                return task
+
+        return None
 
     def get_by_id(self, task_id: int) -> Optional[Task]:
         return self._uow.task.get_by_id(task_id)
