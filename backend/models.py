@@ -1,6 +1,7 @@
 from abc import ABC
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Optional
 
 
 @dataclass
@@ -18,8 +19,8 @@ class User(BaseModel):
 @dataclass
 class Task(BaseModel):
     summary: str
-    description: str
-    date: datetime
+    description: Optional[str]
+    date: Optional[datetime]
     user_id: int
 
 
