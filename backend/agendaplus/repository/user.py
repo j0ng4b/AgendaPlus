@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import Optional
 
-from backend.models import User
-from backend.repository.generic import IRepository, IRepositoryInMemory
+from agendaplus.models import User
+from agendaplus.repository.generic import IRepository, IRepositoryInMemory
 
 
 class IUserRepository(IRepository[User]):

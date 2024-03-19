@@ -6,9 +6,9 @@ from uuid import uuid4
 
 from kink import inject
 
-from backend.models import RefreshToken
-from backend.security import jwt
-from backend.unit_of_work.generic import IUnitOfWork
+from agendaplus.models import RefreshToken
+from agendaplus.security import jwt
+from agendaplus.unit_of_work.generic import IUnitOfWork
 
 
 class IRefreshTokenService(ABC):

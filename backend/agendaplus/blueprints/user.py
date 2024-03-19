@@ -3,10 +3,11 @@ from typing import Optional
 from flask import Blueprint, Response, jsonify, request
 from kink import inject
 
-from backend.blueprints import BadAPIUsage, HTTPStatus, bad_api_usage_handler
-from backend.security import authenticate
-from backend.services.task import ITaskService
-from backend.services.user import IUserService
+from agendaplus.blueprints import BadAPIUsage, HTTPStatus, \
+    bad_api_usage_handler
+from agendaplus.security import authenticate
+from agendaplus.services.task import ITaskService
+from agendaplus.services.user import IUserService
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 user_bp.register_error_handler(BadAPIUsage, bad_api_usage_handler)

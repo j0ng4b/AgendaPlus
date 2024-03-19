@@ -4,8 +4,8 @@ from typing import List, Optional
 
 from kink import inject
 
-from backend.models import Task
-from backend.unit_of_work.generic import IUnitOfWork
+from agendaplus.models import Task
+from agendaplus.unit_of_work.generic import IUnitOfWork
 
 
 class ITaskService(ABC):

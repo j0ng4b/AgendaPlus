@@ -1,10 +1,10 @@
 import importlib
 import os
 import os.path
-from typing import Optional, Dict, Any, cast
+from typing import Any, Dict, Optional
 
-from dotenv import load_dotenv
 from flask import Flask, Blueprint
+from kink import di
 
 
 def create_app(test_config: Optional[Dict[str, Any]] = None) -> Flask:
@@ -30,8 +30,6 @@ def create_app(test_config: Optional[Dict[str, Any]] = None) -> Flask:
 
 
 def bootstrap_di(app: Flask) -> None:
-    from kink import di
-
     # Unit of work
     from .unit_of_work.generic import IUnitOfWork
     from .unit_of_work.in_memory import UnitOfWorkInMemory
@@ -39,6 +37,10 @@ def bootstrap_di(app: Flask) -> None:
     di[IUnitOfWork] = UnitOfWorkInMemory()
 
     # Services
+    bootstrap_services(app)
+
+
+def bootstrap_services(app: Flask) -> None:
     services_root = os.path.join(app.root_path, 'services')
     for service_file in os.listdir(services_root):
         if service_file.startswith('__') \
@@ -87,35 +89,3 @@ def bootstrap_blueprints(app: Flask) -> None:
                   f'not found!')
 
     app.register_blueprint(api, url_prefix='/api')
-
-
-def main() -> None:
-    # Load environment variables from .env files
-    load_dotenv('.env.shared')
-    load_dotenv('.env.backend')
-
-    if os.environ.get('RUN_ENV', default='Development') == 'Production':
-        return
-
-    # Debug server port
-    SERVER_PORT = os.environ.get('SERVER_PORT', default=5000)
-
-    # Try to find SSL certificate and key
-    ssl_context: Optional[tuple[str, str] | list[str]] = [
-        str(os.environ.get('SERVER_SSL_CERTIFICATE', default='')),
-        str(os.environ.get('SERVER_SSL_CERTIFICATE_KEY', default=''))
-    ]
-
-    if ssl_context is None or ssl_context[0] == '' or ssl_context[1] == '':
-        ssl_context = None
-        print(' * Running development server in HTTP')
-    else:
-        ssl_context = (ssl_context[0], ssl_context[1])
-        print(' * Running development server in HTTPS')
-
-    app = create_app()
-    app.run(port=cast(int, SERVER_PORT), debug=True, ssl_context=ssl_context)
-
-
-if __name__ == '__main__':
-    main()
