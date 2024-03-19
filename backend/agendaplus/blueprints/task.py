@@ -33,7 +33,7 @@ def details(task_service: ITaskService,
     })
 
 
-@task_bp.route('/', methods=['POST'])
+@task_bp.route('/create', methods=['POST'])
 @authenticate(pass_id='user_id')
 @inject
 def create(task_service: ITaskService, user_id: int) -> Response:
@@ -55,7 +55,38 @@ def create(task_service: ITaskService, user_id: int) -> Response:
     })
 
 
-@task_bp.route('/<int:task_id>', methods=['DELETE'])
+@task_bp.route('/update/<int:task_id>', methods=['PUT'])
+@authenticate(pass_id='user_id')
+@inject
+def update(task_service: ITaskService, user_id: int, task_id: int) -> Response:
+    date: Optional[str] = request.form.get('date', default=None)
+    summary: Optional[str] = request.form.get('summary', default=None)
+    description: Optional[str] = request.form.get('description', default=None)
+
+    task = task_service.get_by_user_by_id(user_id, task_id)
+    if task is None:
+        raise BadAPIUsage(
+            'can\'t update task, not found',
+            status_code=HTTPStatus.NOT_FOUND
+        )
+
+    if date is not None:
+        task.date = datetime.fromisoformat(date)
+
+    if summary is not None:
+        task.summary = summary
+
+    if description is not None:
+        task.description = description
+
+    task_service.update(task)
+    return jsonify({
+        'status': 'success',
+        'message': 'task updated',
+    })
+
+
+@task_bp.route('/delete/<int:task_id>', methods=['DELETE'])
 @authenticate(pass_id='user_id')
 @inject
 def delete(task_service: ITaskService, user_id: int, task_id: int) -> Response:
