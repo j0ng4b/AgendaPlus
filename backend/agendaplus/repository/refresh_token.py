@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import Optional
 
-from backend.models import RefreshToken
-from backend.repository.generic import IRepository, IRepositoryInMemory
+from agendaplus.models import RefreshToken
+from agendaplus.repository.generic import IRepository, IRepositoryInMemory
 
 
 class IRefreshTokenRepository(IRepository[RefreshToken]):

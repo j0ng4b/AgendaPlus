@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 from types import TracebackType
 from typing import Optional, Self, Type
 
-from backend.repository.refresh_token import IRefreshTokenRepository
-from backend.repository.task import ITaskRepository
-from backend.repository.user import IUserRepository
+from agendaplus.repository.refresh_token import IRefreshTokenRepository
+from agendaplus.repository.task import ITaskRepository
+from agendaplus.repository.user import IUserRepository
 
 
 class IUnitOfWork(ABC):

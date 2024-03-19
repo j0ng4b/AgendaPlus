@@ -1,7 +1,7 @@
-from backend.repository.refresh_token import RefreshTokenRepositoryInMemory
-from backend.repository.task import TaskRepositoryInMemory
-from backend.repository.user import UserRepositoryInMemory
-from backend.unit_of_work.generic import IUnitOfWork
+from agendaplus.repository.refresh_token import RefreshTokenRepositoryInMemory
+from agendaplus.repository.task import TaskRepositoryInMemory
+from agendaplus.repository.user import UserRepositoryInMemory
+from agendaplus.unit_of_work.generic import IUnitOfWork
 
 
 class UnitOfWorkInMemory(IUnitOfWork):

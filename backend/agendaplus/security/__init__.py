@@ -4,8 +4,8 @@ from typing import Any, Callable, Optional, cast
 
 from flask import request
 
-from backend.blueprints import BadAPIUsage, HTTPStatus
-from backend.security import jwt
+from agendaplus.blueprints import BadAPIUsage, HTTPStatus
+from agendaplus.security import jwt
 
 
 def authenticate(pass_id: Optional[str] = None) -> Callable[..., Any]:

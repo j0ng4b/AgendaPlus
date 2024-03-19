@@ -4,11 +4,12 @@ from typing import Optional
 from flask import Blueprint, Response, jsonify, request
 from kink import inject
 
-from backend.blueprints import BadAPIUsage, HTTPStatus, bad_api_usage_handler
-from backend.models import User
-from backend.security import jwt
-from backend.services.refresh_token import IRefreshTokenService
-from backend.services.user import IUserService
+from agendaplus.blueprints import BadAPIUsage, HTTPStatus, \
+    bad_api_usage_handler
+from agendaplus.models import User
+from agendaplus.security import jwt
+from agendaplus.services.refresh_token import IRefreshTokenService
+from agendaplus.services.user import IUserService
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 auth_bp.register_error_handler(BadAPIUsage, bad_api_usage_handler)

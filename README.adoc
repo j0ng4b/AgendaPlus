@@ -90,7 +90,7 @@ para a geração dos tokens de autenticação.
 
 NOTE: Para saber como gerar uma chave secreta aleatória veja <<secret-keys>>.
 
-    python -m backend
+    python backend/server.py
 
 Para iniciar a execução do front-end primeiro copie o arquivo
 `.env.frontend.sample` para `.env.frontend,` esse arquivo é onde reside as

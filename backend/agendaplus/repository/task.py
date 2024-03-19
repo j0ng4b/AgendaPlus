@@ -2,8 +2,8 @@ from abc import abstractmethod
 from datetime import datetime
 from typing import List
 
-from backend.models import Task
-from backend.repository.generic import IRepository, IRepositoryInMemory
+from agendaplus.models import Task
+from agendaplus.repository.generic import IRepository, IRepositoryInMemory
 
 
 class ITaskRepository(IRepository[Task]):
