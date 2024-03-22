@@ -40,14 +40,18 @@ class AgendaPlusAPI:
         # attribute is automatic updated
         self.url = ''
 
-        self.session = Session()
+        # This is used on endpoints. If using make_url function decorator this
+        # attribute is automatic updated to set authentication
+        self.headers = {}
+
+        self.session = requests.Session()
         self.access_token = ''
 
-    @make_url('auth')
+    @make_url('auth', auth=False)
     def register(self,
                  name: str,
                  email: str,
-                 password: str) -> tuple[bool, dict[str, Any]]:
+                 password: str) -> dict[str, Any]:
         data = {
             'name': name,
             'email': email,
@@ -56,16 +60,16 @@ class AgendaPlusAPI:
 
         response = self.session.post(self.url, data, verify=self.verify_ssl)
         if response.status_code != 200:
-            return (False, response.json())
+            return response.json()
 
         response_json = response.json()
         self.access_token = response_json.get('access_token')
 
         response_json.pop('access_token')
-        return (True, response_json)
+        return response_json
 
-    @make_url('auth')
-    def login(self, email: str, password: str) -> tuple[bool, dict[str, Any]]:
+    @make_url('auth', auth=False)
+    def login(self, email: str, password: str) -> dict[str, Any]:
         data = {
             'email': email,
             'password': password
@@ -73,31 +77,27 @@ class AgendaPlusAPI:
 
         response = self.session.post(self.url, data, verify=self.verify_ssl)
         if response.status_code != 200:
-            return (False, response.json())
+            return response.json()
 
         response_json = response.json()
         self.access_token = response_json.get('access_token')
 
         response_json.pop('access_token')
-        return (True, response_json)
+        return response_json
 
-    @make_url('auth', endpoint='refresh-token')
-    def __refresh_token(self) -> tuple[bool, dict[str, Any]]:
-        headers = {
-            'X-CSRF-Token': self.session.cookies.get('csrf_token')
-        }
-
+    @make_url('auth', endpoint='refresh-token', auth=False)
+    def __refresh_token(self) -> bool:
         response = self.session.get(
             self.url,
-            headers=headers,
+            headers={'X-CSRF-Token': self.session.cookies.get('csrf_token')},
             verify=self.verify_ssl
         )
 
         if response.status_code != 200:
-            return (False, response.json())
+            return False
 
-        response_json = response.json()
-        self.access_token = response_json.get('access_token')
+        self.access_token = response.json().get('access_token')
+        return True
 
         response_json.pop('access_token')
         return (True, response_json)
