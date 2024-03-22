@@ -1,10 +1,10 @@
 from os import environ
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
-from requests import Session
+import requests
 
 
-def make_url(parent: str, endpoint: str = None):
+def make_url(parent: str, endpoint: Optional[str] = None, auth: bool = True):
     def inner(function: Callable):
         def wrapper(self, *args, **kwargs):
             base_url = environ.get('BACKEND_API_URL')
@@ -15,9 +15,14 @@ def make_url(parent: str, endpoint: str = None):
                 endpoint_name = endpoint
 
             self.url = f'{base_url}/api/{parent}/{endpoint_name}'
-            print(self.url)
 
-            return endpoint(self, *args, **kwargs)
+            self.headers = {}
+            if auth and self.access_token != '':
+                self.headers = {
+                    'Authorization': f'Bearer {self.access_token}'
+                }
+
+            return function(self, *args, **kwargs)
         return wrapper
     return inner
 
